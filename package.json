@@ -1,0 +1,72 @@
+{
+  "name": "restoflow-desktop",
+  "productName": "RestoFlow Desktop",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite --port=3000 --strictPort --host=0.0.0.0",
+    "desktop:dev": "concurrently -k \"npm:dev\" \"npm:desktop:main\"",
+    "desktop:main": "wait-on tcp:3000 && cross-env VITE_DEV_SERVER_URL=http://localhost:3000 electron .",
+    "desktop:recovery": "wait-on tcp:3000 && cross-env VITE_DEV_SERVER_URL=http://localhost:3000 RESTOFLOW_OWNER_RECOVERY=1 electron .",
+    "desktop:recovery:dev": "concurrently -k \"npm:dev\" \"npm:desktop:recovery\"",
+    "build": "vite build",
+    "desktop:pack": "npm run build && electron-builder --dir --win",
+    "desktop:dist": "npm run build && electron-builder --win nsis",
+    "preview": "vite preview",
+    "clean": "rm -rf dist server.js",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^2.4.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^8.3.0",
+    "express": "^4.21.2",
+    "dotenv": "^17.2.3",
+    "motion": "^12.23.24",
+    "better-sqlite3": "^12.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.4.21",
+    "esbuild": "^0.28.2",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^7.0.2",
+    "@types/express": "^4.17.21",
+    "@types/better-sqlite3": "^7.6.13",
+    "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^44.0.0",
+    "electron-builder": "^26.0.12",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "com.restoflow.desktop",
+    "productName": "RestoFlow Desktop",
+    "asar": true,
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": ["nsis"],
+      "artifactName": "${productName}-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

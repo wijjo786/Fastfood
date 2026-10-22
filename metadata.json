@@ -1,0 +1,6 @@
+{
+  "name": "RestoFlow - Desktop & Cloud Restaurant POS System",
+  "description": "Comprehensive Restaurant & Fast Food Management System featuring offline Electron-SQLite architecture, multi-phase roadmap, live POS, KDS, inventory & recipe engine.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
